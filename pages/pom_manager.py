@@ -1,5 +1,5 @@
-from playwright.sync_api import Page, expect
-from login_page import LoginPage
+from playwright.async_api import Page, expect
+from .login_page import LoginPage
 
 class PomManager:
     def __init__(self, page: Page) -> None:

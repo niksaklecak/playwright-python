@@ -8,8 +8,9 @@ This module contains shared fixtures.
 
 import os
 import pytest
-from playwright.sync_api import Page, expect
+from playwright.async_api import Page, expect
 from pages.pom_manager import PomManager
+from dotenv import load_dotenv
 
 
 # ------------------------------------------------------------
@@ -29,15 +30,26 @@ def browser_context_args(browser_context_args):
             }        
     }
 
+# Increase default timeout for slow startups
+@pytest.fixture(scope="session", autouse=True)
+async def increase_default_timeout(page: Page):
+
 @pytest.fixture
-def auth_page(page: Page) -> Page:
-    page.goto("/")
-    perform_authentication(page)
-    page.context().storage_state(path="tests/e2e/storage_state.json")
+async def auth_page(page: Page) -> Page:
+    await page.goto("/", timeout=60000)
+    await perform_authentication(page)
+    await page.context.storage_state(path="tests/e2e/storage_state.json")
     return page
 
-def perform_authentication(page: Page) -> None:
-    page.get_by_role("link", name="Account").click()
+async def perform_authentication(page: Page) -> None:
+    # Load environment variables
+    load_dotenv()
+    email = os.getenv("TEST_USER_EMAIL")
+    password = os.getenv("TEST_USER_PASSWORD")
+    if not email or not password:
+        raise ValueError("TEST_USER_EMAIL and TEST_USER_PASSWORD must be set in .env file")
+
+    await page.get_by_role("link", name="Account").click()
     pom = PomManager(page)
-    pom.loginPage.login("testniksa1@gmail.com", "sifra123")
+    await pom.loginPage.login(email, password)
 

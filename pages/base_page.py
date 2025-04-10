@@ -1,4 +1,5 @@
 from playwright.sync_api import sync_playwright
+from playwright.async_api import Page, expect
 
 class BasePage:
 
@@ -9,10 +10,10 @@ class BasePage:
 
     # this method should wait until the page URL is loaded 
     # and also it should wait until the specified network request is completed
-    def load(self, url, page_network_request) -> None:
-        self.page.goto(url, waitUntil="networkidle")
-        self.page.wait_for_load_state("networkidle")
-        self.page.wait_for_request(page_network_request)
+    async def load(self, url, page_network_request) -> None:
+        await self.page.goto(url, waitUntil="networkidle")
+        await self.page.wait_for_load_state("networkidle")
+        await self.page.wait_for_request(page_network_request)
 
 
        

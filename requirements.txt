@@ -1,9 +1,10 @@
-
 playwright
-playwright-async
+# playwright-async # Removed, not standard
 pytest
+pytest-asyncio # Added for pytest integration
 pytest-base-url
 pytest-forked
 pytest-playwright
 pytest-xdist
 requests
+httpx # Added for async HTTP requests
