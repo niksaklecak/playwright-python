@@ -15,7 +15,8 @@ def get_env_variable(var_name: str) -> str:
     return value
 
 # Load specific configurations
-EHR_URL = get_env_variable("EHR_URL")
-EHR_USERNAME = get_env_variable("EHR_USERNAME")
-EHR_PASSWORD = get_env_variable("EHR_PASSWORD")
+WEINFUSE_BASE_URL = get_env_variable("WEINFUSE_BASE_URL")
+WEINFUSE_USERNAME = get_env_variable("WEINFUSE_USERNAME")
+WEINFUSE_PASSWORD = get_env_variable("WEINFUSE_PASSWORD")
+WEINFUSE_OTP_SECRET = get_env_variable("WEINFUSE_OTP_SECRET")
 
