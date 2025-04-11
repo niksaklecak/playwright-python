@@ -2,8 +2,8 @@
 This module contains shared api fixtures.
 """
 import pytest
-from typing import Generator
-from helpers.graphql_client import GraphQLClient
+from typing import AsyncGenerator
+from helpers.api_client import ApiClient
 
 
 
@@ -12,9 +12,8 @@ from helpers.graphql_client import GraphQLClient
 # ------------------------------------------------------------
 
 @pytest.fixture(scope='session')
-def execute_graphql_query() -> Generator[GraphQLClient, None, None]:
-    graphQLClient = GraphQLClient()
-    yield graphQLClient
-    graphQLClient.close()
+async def api_client() -> AsyncGenerator[ApiClient, None]:
+    async with ApiClient() as client:
+        yield client
 
     
